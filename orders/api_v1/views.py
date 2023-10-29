@@ -4,18 +4,18 @@ import csv
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Product
-from .serializers import ProductListSerializer, ProductSerializer
+from .models import OrderHistory
+from .serializers import OrderHistoryListSerializer, OrderHistorySerializer
 
 
-class ProductListAPIView(ListAPIView):
-    queryset = Product.objects.all()[:5]
-    serializer_class = ProductListSerializer
+class OrderHistoryListAPIView(ListAPIView):
+    queryset = OrderHistory.objects.all()[:5]
+    serializer_class = OrderHistoryListSerializer
 
 
-class ProductCreateAPIView(CreateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+class OrderHistoryCreateAPIView(CreateAPIView):
+    queryset = OrderHistory.objects.all()
+    serializer_class = OrderHistorySerializer
 
     def perform_create(self, serializer):
         serializer.save()
@@ -27,7 +27,7 @@ class ProductCreateAPIView(CreateAPIView):
             csv_file = file.read().decode('utf-8').splitlines()
             csv_reader = csv.DictReader(csv_file)
             for row in csv_reader:
-                serializer = ProductSerializer(data={
+                serializer = OrderHistorySerializer(data={
                     'customer': row['customer'],
                     'item': row['item'],
                     'total': row['total'],
